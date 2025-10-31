@@ -157,3 +157,22 @@ h2 {
     padding: 20px;
   }
 }
+.btn-limpar {
+  background-color: #dc3545; /* Vermelho 'perigo' */
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  float: right; /* Alinha à direita */
+  /* Ajuste para alinhar com o título h2 */
+  margin-top: -55px; 
+  margin-right: 5px;
+}
+
+.btn-limpar:hover {
+  background-color: #c82333;
+}
