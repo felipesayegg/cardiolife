@@ -1,42 +1,159 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* RESET BÁSICO */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: #f4f7f6; /* Cor de fundo suave */
+  color: #333;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* CONTAINER PRINCIPAL (Layout Centralizado) */
+.app-container {
+  max-width: 1200px;
+  margin: 40px auto; /* Centraliza na tela */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+h2 {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 8px;
 }
 
-.card {
-  padding: 2em;
+/* ESTILO DO FORMULÁRIO (Formulário moderno) */
+.form-card {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e0e0e0;
 }
 
-.read-the-docs {
+.form-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-card label {
+  font-weight: 500;
+  color: #34495e;
+  margin-bottom: -5px; /* Deixa o label mais perto do input */
+}
+
+.form-card input[type="text"],
+.form-card input[type="number"] {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-card input[type="text"]:focus,
+.form-card input[type="number"]:focus {
+  outline: none;
+  border-color: #007bff; /* Cor suave de foco */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+/* Grupo para pressão arterial */
+.pressao-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pressao-group input {
+  flex: 1; /* Faz os dois inputs ocuparem espaço igual */
+}
+
+.pressao-group span {
+  font-size: 1.2rem;
   color: #888;
+}
+
+.form-card button {
+  background-color: #007bff;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.form-card button:hover {
+  background-color: #0056b3;
+}
+
+/* ESTILO DOS CARDS DE REGISTRO */
+.registros-container {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e0e0e0;
+}
+
+.sem-registros {
+  color: #777;
+  font-style: italic;
+}
+
+/* Grid para os cards (Responsividade) */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.record-card {
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.record-card h3 {
+  font-weight: 600;
+  color: #007bff;
+  margin-bottom: 12px;
+}
+
+.record-card p {
+  line-height: 1.6;
+  color: #555;
+}
+
+.record-card p strong {
+  color: #2c3e50;
+  font-weight: 700;
+}
+
+/* Responsividade simples para telas menores */
+@media (max-width: 768px) {
+  .app-container {
+    margin: 20px auto;
+    padding: 15px;
+  }
+
+  .form-card, .registros-container {
+    padding: 20px;
+  }
 }
