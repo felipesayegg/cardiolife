@@ -10,7 +10,6 @@ export default function App() {
   const [registros, setRegistros] = useState([]);
   const [toast, setToast] = useState({ message: '', type: '' });
 
-  // Tenta recuperar a sessão ao abrir a página
   useEffect(() => {
     const sessaoSalva = localStorage.getItem('sessaoCardioLife');
     if (sessaoSalva) {
@@ -18,15 +17,47 @@ export default function App() {
     }
   }, []);
 
+  // --- O SEGREDO ESTÁ AQUI: Carrega dados específicos do ID logado ---
+  useEffect(() => {
+    if (usuarioLogado) {
+      const chaveUsuario = `dadosCardiologicos_${usuarioLogado.id}`;
+      const dadosSalvos = localStorage.getItem(chaveUsuario);
+      setRegistros(dadosSalvos ? JSON.parse(dadosSalvos) : []);
+    }
+  }, [usuarioLogado]);
+
+  const adicionarRegistro = (novoRegistro) => {
+    // Adiciona o nome do médico que está logado no registro
+    const registroCompleto = { 
+      ...novoRegistro, 
+      usuarioId: usuarioLogado.id, 
+      usuarioNome: usuarioLogado.nome 
+    };
+
+    const novosRegistros = [...registros, registroCompleto];
+    setRegistros(novosRegistros);
+
+    // Salva na chave EXCLUSIVA desse usuário
+    const chaveUsuario = `dadosCardiologicos_${usuarioLogado.id}`;
+    localStorage.setItem(chaveUsuario, JSON.stringify(novosRegistros));
+    
+    setToast({ message: `Paciente salvo por ${usuarioLogado.nome}!`, type: 'success' });
+  };
+
+  const fazerLogout = () => {
+    localStorage.removeItem('sessaoCardioLife');
+    setUsuarioLogado(null);
+    setRegistros([]);
+  };
+
   const simularLogin = (id) => {
     const usuarios = {
       1: { id: 1, nome: "Dr. João Silva", email: "joao@cardiolife.com" },
       2: { id: 2, nome: "Dra. Maria Santos", email: "maria@cardiolife.com" },
       3: { id: 3, nome: "Admin Sistema", email: "admin@cardiolife.com" }
     };
-    const user = usuarios[id];
-    localStorage.setItem('sessaoCardioLife', JSON.stringify(user));
-    setUsuarioLogado(user);
+    localStorage.setItem('sessaoCardioLife', JSON.stringify(usuarios[id]));
+    setUsuarioLogado(usuarios[id]);
   };
 
   if (!usuarioLogado) {
@@ -47,12 +78,19 @@ export default function App() {
       <Header />
       <div className="user-bar">
         <span>🩺 Médico: <strong>{usuarioLogado.nome}</strong></span>
-        <button onClick={() => { localStorage.removeItem('sessaoCardioLife'); setUsuarioLogado(null); }} className="btn-logout">Sair</button>
+        <button onClick={fazerLogout} className="btn-logout">Sair</button>
       </div>
       
-      {/* Por enquanto, salvando na lista geral até o próximo commit */}
-      <FormularioCadastro onRegistroSalvo={(reg) => setRegistros([...registros, reg])} />
-      <ListaRegistros registros={registros} />
+      {/* Admin não cadastra no MVP (conforme regra da aula) */}
+      {usuarioLogado.id !== 3 && (
+        <FormularioCadastro onRegistroSalvo={adicionarRegistro} />
+      )}
+
+      <ListaRegistros 
+        registros={registros} 
+        onLimparRegistros={() => { setRegistros([]); localStorage.removeItem(`dadosCardiologicos_${usuarioLogado.id}`); }}
+      />
+      
       <Toast message={toast.message} type={toast.type} onClose={() => setToast({message:'', type:''})} />
     </div>
   );
