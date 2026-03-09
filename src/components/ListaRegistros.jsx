@@ -1,39 +1,33 @@
 /* eslint-disable react/prop-types */
-// O componente recebe 'registros' (a lista) e 'onLimparRegistros' (a função)
-export default function ListaRegistros({ registros, onLimparRegistros }) {
+export default function ListaRegistros({ registros, onLimparRegistros, isAdmin }) {
   
-  // Função para chamar o "limpar" só depois de confirmar
-  const handleClearAll = () => {
-    if (window.confirm("Tem certeza que deseja apagar TODOS os registros?")) {
-      onLimparRegistros(); // Chama a função que veio do App.jsx
-    }
-  };
-
   return (
     <div className="registros-container">
-      <h2>Últimos Registros</h2>
+      <h2>{isAdmin ? "Painel Geral de Registros (Admin)" : "Meus Últimos Registros"}</h2>
       
-      {/* O botão de Limpar só aparece se tiver registros */}
-      {registros.length > 0 && (
-        <button onClick={handleClearAll} className="btn-limpar">
-          Limpar Todos
-        </button>
+      {registros.length > 0 && !isAdmin && (
+        <button onClick={onLimparRegistros} className="btn-limpar">Limpar Tudo</button>
       )}
 
       <div className="cards-grid">
-        
-        {/* Mensagem de "sem registros" */}
         {registros.length === 0 && (
-          <p className="sem-registros">Nenhum registro encontrado.</p>
+          <p className="sem-registros">Nenhum registro encontrado para este usuário.</p>
         )}
 
-        {/* Mapeia a lista e cria os cards (só os últimos 6, em ordem reversa) */}
-        {registros.slice(-6).reverse().map((reg) => (
+        {registros.slice().reverse().map((reg) => (
           <div className="record-card" key={reg.id}>
-            <h3>{reg.nome}</h3>
-            <p>Idade: {reg.idade} anos</p>
-            <p>Peso: {reg.peso} kg</p>
-            <p>Pressão: <strong>{reg.pressaoSistolica} / {reg.pressaoDiastolica}</strong> mmHg</p>
+            <div className="card-header">
+              <h3>{reg.nome}</h3>
+              {/* MOSTRA O NOME DO MÉDICO SÓ PARA O ADMIN (Regra da Aula 04/03) */}
+              {isAdmin && reg.usuarioNome && (
+                <span className="badge-medico">{reg.usuarioNome}</span>
+              )}
+            </div>
+            <p><strong>Data:</strong> {reg.dataRegistro}</p>
+            <p><strong>Idade:</strong> {reg.idade} anos | <strong>Peso:</strong> {reg.peso}kg</p>
+            <p className="pressao-val">
+              Pressão: <span>{reg.pressaoSistolica}/{reg.pressaoDiastolica}</span> mmHg
+            </p>
           </div>
         ))}
       </div>
