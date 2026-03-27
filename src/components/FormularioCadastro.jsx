@@ -8,6 +8,7 @@ export default function FormularioCadastro({ onRegistroSalvo }) {
     nome: '',
     idade: '',
     peso: '',
+    altura: '',
     pressaoSistolica: '',
     pressaoDiastolica: ''
   });
@@ -34,6 +35,7 @@ export default function FormularioCadastro({ onRegistroSalvo }) {
       nome: '',
       idade: '',
       peso: '',
+      altura: '',
       pressaoSistolica: '',
       pressaoDiastolica: ''
     });
@@ -72,8 +74,22 @@ export default function FormularioCadastro({ onRegistroSalvo }) {
           type="number"
           id="peso"
           name="peso"
-          placeholder="Ex: 80.5" // Já coloquei o placeholder melhorado
+          placeholder="Ex: 80.5"
           value={formData.peso}
+          onChange={handleChange}
+          required
+        />
+
+        <label htmlFor="altura">Altura (m)</label>
+        <input
+          type="number"
+          id="altura"
+          name="altura"
+          placeholder="Ex: 1.75"
+          step="0.01"
+          min="1"
+          max="2.5"
+          value={formData.altura}
           onChange={handleChange}
           required
         />
